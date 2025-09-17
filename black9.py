@@ -327,29 +327,9 @@ def ChEck_Limit_CLan(Uid , STaTus):
         return f"{max_use - u['count']}" , datetime.fromtimestamp(u["start_time"] + limit).strftime("%I:%M %p - %d/%m/%y")
     return False , datetime.fromtimestamp(u["start_time"] + limit).strftime("%I:%M %p - %d/%m/%y")
 
-def ChEck_Limit(Uid , STaTus):
-    data , max_use , file = (like_data, 10, "BesTo_RemaininG_LiKes.json") if STaTus == "like" else (room_data, 10, "BesTo_RemaininG_Room.json")
-    t , limit = time.time(), 86400
-    u = data.get(str(Uid), {"count": 0, "start_time": t})    
-    if t - u["start_time"] >= limit:
-        u = {"count": 0, "start_time": t}
-    if u["count"] < max_use:
-        u["count"] += 1
-        data[str(Uid)] = u
-        json.dump(data , open(file, "w"))
-        return f"{max_use - u['count']}" , datetime.fromtimestamp(u["start_time"] + limit).strftime("%I:%M %p - %d/%m/%y")
-    return False , datetime.fromtimestamp(u["start_time"] + limit).strftime("%I:%M %p - %d/%m/%y")
-    
-f = 'blacklist.txt'
-approvee = 'approved.txt'
-black , approve = [] , []
 
-def load_blacklist():
-    global black
-    try: 
-        with open(f, 'r') as file: 
-            black = [line.strip() for line in file if line.strip()]
-    except: black = []
+
+
 
 def encrypt_uids():
     global black
@@ -404,20 +384,10 @@ def Clear():
         open(f, 'w').close() ; black.clear() ; return True
     except: return False
                    
-def Add_Black(user_id):
-    Add_Uid(user_id)
-    if EnC_Uid(user_id , Tp = 'Uid') not in black: black.append(EnC_Uid(user_id , Tp = 'Uid')) ; return True
-    else: return False 
-    
-def Rem_Black(user_id):
-    user_id_encrypted = EnC_Uid(user_id , Tp = 'Uid')
-    if user_id_encrypted in black: black.remove(user_id_encrypted) ; Remove_Uid(f , user_id) ; return True
-    else: return False       
 
-def Show_Uids():
-    try:
-        with open(f) as file: return "\n".join(sorted(file.read().splitlines(), key=int)) or False
-    except (FileNotFoundError, ValueError): return False 
+    
+     
+
 
 def Approved(user_id):
     A(user_id)
